@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - HUBSPOT_PRIVATE_APP_TOKEN=${HUBSPOT_PRIVATE_APP_TOKEN}
+    networks:
+      - hubspot-net
+
+networks:
+  hubspot-net:
+    driver: bridge

@@ -1,0 +1,8 @@
+hubspot:
+  api:
+    base-url: https://api.hubapi.com
+    token: ${HUBSPOT_PRIVATE_APP_TOKEN}
+
+logging:
+  level:
+    com.example: DEBUG
