@@ -1,6 +1,6 @@
 package com.example.hubspot.service;
 
-import com.example.hubspot.dto.ContactRequest;
+import com.example.hubspot.dto.ContactDto;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +75,7 @@ public class ContactService {
     }
 
     // --- 1. KÖTELEZŐ FELADAT: LÉTREHOZÁS (CREATE) ---
-    public String createContact(ContactRequest request) {
+    public String createContact(ContactDto request) {
         Map<String, Object> body = Map.of("properties", Map.of(
                 "email", request.getEmail(),
                 "firstname", request.getFirstname(),
@@ -98,7 +98,7 @@ public class ContactService {
     }
 
     // --- 1. KÖTELEZŐ FELADAT: FRISSÍTÉS (UPDATE) ---
-    public void updateContact(String contactId, ContactRequest request) {
+    public void updateContact(String contactId, ContactDto request) {
         Map<String, Object> body = Map.of("properties", Map.of(
                 "firstname", request.getFirstname(),
                 "lastname", request.getLastname()
@@ -119,7 +119,7 @@ public class ContactService {
     }
 
     // --- FŐ LOGIKA: UPSERT ---
-    public Map<String, String> upsertContact(ContactRequest request) {
+    public Map<String, String> upsertContact(ContactDto request) {
         Optional<String> existingId = findContactIdByEmail(request.getEmail());
 
         if (existingId.isPresent()) {

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactRequest {
+public class ContactDto {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")

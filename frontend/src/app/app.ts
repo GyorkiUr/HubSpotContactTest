@@ -29,16 +29,15 @@ export class AppComponent implements OnInit {
     this.hubspotService.getContacts().subscribe({
       next: (data) => {
         this.contacts = data && data.results ? data.results : [];
-        console.log('Lista sikeresen betöltve:', this.contacts);
-        
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Hiba a lista betöltésekor:', err);
-        this.statusMessage = 'Hiba történt a lista betöltésekor.';
+        this.statusMessage = 'A szerver jelenleg nem elérhető. Kérjük, próbálja később!';
+        this.cdr.detectChanges();
       }
     });
-  }
+}
 
   onSubmit() {
     this.hubspotService.upsertContact(this.formData).subscribe({
@@ -50,8 +49,8 @@ export class AppComponent implements OnInit {
         this.refreshList();
       },
       error: (err) => {
-        console.error('Mentési hiba:', err);
-        this.statusMessage = 'Hiba történt a mentés során. Ellenőrizd a konzolt!';
+        this.statusMessage = err.error?.error || 'Hiba történt a mentés során.';
+        this.cdr.detectChanges();
       }
     });
   }
