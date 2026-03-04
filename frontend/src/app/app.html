@@ -1,0 +1,82 @@
+<div class="container" style="padding: 30px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto;">
+  <header style="border-bottom: 2px solid #ff7a59; margin-bottom: 30px; padding-bottom: 10px;">
+    <h1 style="color: #33475b; margin: 0;">HubSpot Contact Manager</h1>
+    <p style="color: #516f90; margin: 5px 0 0 0;">Junior Próbafeladat - Upsert & Listázás</p>
+  </header>
+
+  <section class="card" style="background: #f5f8fa; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 40px;">
+    <h3 style="color: #33475b; margin-top: 0;">Új Contact / Adatfrissítés</h3>
+    
+    <form (ngSubmit)="onSubmit()" #contactForm="ngForm" novalidate>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        
+        <div>
+          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Keresztnév *</label>
+          <input type="text" name="firstname" [(ngModel)]="formData.firstname" #fname="ngModel"
+                 required placeholder="pl. János" 
+                 style="width: 100%; padding: 10px; border: 1px solid #cbd6e2; border-radius: 4px; box-sizing: border-box;">
+          <small *ngIf="fname.invalid && fname.touched" style="color: #f2545b;">A keresztnév kötelező!</small>
+        </div>
+
+        <div>
+          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Vezetéknév *</label>
+          <input type="text" name="lastname" [(ngModel)]="formData.lastname" #lname="ngModel"
+                 required placeholder="pl. Kovács"
+                 style="width: 100%; padding: 10px; border: 1px solid #cbd6e2; border-radius: 4px; box-sizing: border-box;">
+          <small *ngIf="lname.invalid && lname.touched" style="color: #f2545b;">A vezetéknév kötelező!</small>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Email cím *</label>
+        <input type="email" name="email" [(ngModel)]="formData.email" #email="ngModel"
+               required email placeholder="kovacs.janos@example.hu"
+               style="width: 100%; padding: 10px; border: 1px solid #cbd6e2; border-radius: 4px; box-sizing: border-box;">
+        <small *ngIf="email.errors?.['required'] && email.touched" style="color: #f2545b;">Az email kötelező!</small>
+        <small *ngIf="email.errors?.['email'] && email.touched" style="color: #f2545b;">Érvénytelen email formátum!</small>
+      </div>
+
+      <button type="submit" [disabled]="!contactForm.form.valid" 
+              style="background-color: #ff7a59; color: white; border: none; padding: 12px 25px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+        Mentés HubSpotba
+      </button>
+
+      <div *ngIf="statusMessage" 
+           style="margin-top: 15px; padding: 10px; border-radius: 4px; background: #eaf3ff; border-left: 5px solid #007bff; color: #33475b;">
+        {{ statusMessage }}
+      </div>
+    </form>
+  </section>
+
+  <section>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h3 style="color: #33475b; margin: 0;">Létrehozott Contactok Listája</h3>
+      <button (click)="refreshList()" 
+              style="background: white; border: 1px solid #cbd6e2; padding: 8px 15px; border-radius: 4px; cursor: pointer; color: #516f90;">
+        🔄 Lista Frissítése
+      </button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; background: white; border: 1px solid #cbd6e2;">
+        <thead style="background: #f5f8fa; border-bottom: 2px solid #cbd6e2;">
+          <tr>
+            <th style="padding: 12px; text-align: left; color: #33475b;">Email</th>
+            <th style="padding: 12px; text-align: left; color: #33475b;">Keresztnév</th>
+            <th style="padding: 12px; text-align: left; color: #33475b;">Vezetéknév</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contacts" style="border-bottom: 1px solid #cbd6e2;">
+            <td style="padding: 12px; color: #516f90;">{{ contact.properties.email }}</td>
+            <td style="padding: 12px; color: #516f90;">{{ contact.properties.firstname || '-' }}</td>
+            <td style="padding: 12px; color: #516f90;">{{ contact.properties.lastname || '-' }}</td>
+          </tr>
+          <tr *ngIf="contacts.length === 0">
+            <td colspan="3" style="padding: 20px; text-align: center; color: #afc0d1;">Még nincsenek betöltött adatok.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
