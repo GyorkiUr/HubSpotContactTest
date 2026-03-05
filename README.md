@@ -22,18 +22,18 @@ A futtatáshoz mindössze Docker és Docker Compose szükséges.
    HUBSPOT_PRIVATE_APP_TOKEN=<private app token>
    ```
 
-2. Indítás: Az alábbi parancsot a terminálban:
+2. Indítás: Az alábbi parancsot a terminálban a projekt root mappájában futtatva:
     ```
    docker compose up --build
    ```
 
-3. Elérés és endpointok: 
+3. Elérés(+Portok) és endpointok: 
    - Felhasználói felület: http://localhost:4200
    - API végpontok: 
         - http://localhost:8080/api/contacts 
             - GET: A frontend ezzel kéri le a HubSpotból szinkronizált kapcsolatok listáját az oldal betöltésekor vagy frissítéskor.
             - POST	Az Angular form elküldésekor hívódik meg. Ez indítja el az "Upsert" folyamatot (keresés, majd mentés vagy frissítés).
-        - http://localhost:8080/api/contacts/test-error/{code} : Teszt végpont: Eezzel lehet szimulálni a különböző hibaállapotokat (400, 401, 429 stb.) a globális hibakezelő teszteléséhez.
+        - http://localhost:8080/api/contacts/test-error/{code} : Teszt végpont: Ezzel lehet szimulálni a különböző hibaállapotokat (400, 401, 429 stb.) a globális hibakezelő teszteléséhez.
 
     - HubSpot végpontok:
         - **/crm/v3/objects/contacts/search** : Az Upsert logika első lépése. Itt keresünk rá a megadott email címre, hogy megtudjuk, létezik-e már a felhasználó.
